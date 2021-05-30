@@ -9,11 +9,13 @@ public class PlayerController : MonoBehaviour
     private float verticalRotStore; //limit looking up & down
     private Vector2 mouseInput;
 
+    public bool invertLook;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        //Lock the cursor while playing the game
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -25,8 +27,18 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
 
         //Change the rotation of viewpoint accoss the x axis (looking Up & Down)
-        verticalRotStore -= mouseInput.y;
+        verticalRotStore += mouseInput.y;
         verticalRotStore = Mathf.Clamp(verticalRotStore, -60f, 60f);
-        viewPoint.rotation = Quaternion.Euler(verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+
+        if(invertLook)
+        {
+            //Mouse up: Look down + Mouse down: Look up
+            viewPoint.rotation = Quaternion.Euler(verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+        }
+        else
+        {
+            // mouse up & down will look up & down
+            viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
+        }
     }
 }
