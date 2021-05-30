@@ -23,5 +23,10 @@ public class PlayerController : MonoBehaviour
 
         //Change the rotation accoss the Y axis (looking left & right)
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y + mouseInput.x, transform.rotation.eulerAngles.z);
+
+        //Change the rotation of viewpoint accoss the x axis (looking Up & Down)
+        verticalRotStore -= mouseInput.y;
+        verticalRotStore = Mathf.Clamp(verticalRotStore, -60f, 60f);
+        viewPoint.rotation = Quaternion.Euler(verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
     }
 }
