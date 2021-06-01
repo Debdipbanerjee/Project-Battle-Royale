@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 mouseInput;
 
     public bool invertLook;
+    public float moveSpeed = 5f;
+
+    private Vector3 moveDir, movement;
 
     // Start is called before the first frame update
     void Start()
@@ -40,5 +43,12 @@ public class PlayerController : MonoBehaviour
             // mouse up & down will look up & down
             viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
         }
+
+        moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
+
+        movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized; // move forward 
+
+        transform.position += movement * moveSpeed * Time.deltaTime;
+
     }
 }
