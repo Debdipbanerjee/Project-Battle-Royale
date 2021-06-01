@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 moveDir, movement;
 
+    public CharacterController charCon;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,7 +50,7 @@ public class PlayerController : MonoBehaviour
 
         movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized; // move forward 
 
-        transform.position += movement * moveSpeed * Time.deltaTime;
+        charCon.Move(movement * moveSpeed * Time.deltaTime); //move using character controller
 
     }
 }
