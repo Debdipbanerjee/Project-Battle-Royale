@@ -17,16 +17,24 @@ public class PlayerController : MonoBehaviour
 
     public CharacterController charCon;
 
+    //Accessing main camera
+    private Camera cam;
+
     // Start is called before the first frame update
     void Start()
     {
         //Lock the cursor while playing the game
         Cursor.lockState = CursorLockMode.Locked;
+
+        //Assigning main camera
+        cam = Camera.main;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //Looking
+        //Getting mouse input for looking
         mouseInput = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y")) * mouseSensitivity;
 
         //Change the rotation accoss the Y axis (looking left & right)
@@ -36,6 +44,7 @@ public class PlayerController : MonoBehaviour
         verticalRotStore += mouseInput.y;
         verticalRotStore = Mathf.Clamp(verticalRotStore, -60f, 60f);
 
+        //Invert Looking up & down
         if(invertLook)
         {
             //Mouse up: Look down + Mouse down: Look up
@@ -47,7 +56,8 @@ public class PlayerController : MonoBehaviour
             viewPoint.rotation = Quaternion.Euler(-verticalRotStore, viewPoint.rotation.eulerAngles.y, viewPoint.rotation.eulerAngles.z);
         }
 
-        //getting directions from keyboards
+        //Moving
+        //getting keyboard inputs for moving direction
         moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0f, Input.GetAxisRaw("Vertical"));
 
         //Checking if player is Running or Walking
@@ -68,5 +78,12 @@ public class PlayerController : MonoBehaviour
         //move using character controller
         charCon.Move(movement * Time.deltaTime); 
 
+    }
+
+    private void LateUpdate()
+    {
+        //Using Main camera as FPS camera without assigning as a child of player
+        cam.transform.position = viewPoint.position;
+        cam.transform.rotation = viewPoint.rotation;
     }
 }
