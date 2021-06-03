@@ -103,6 +103,18 @@ public class PlayerController : MonoBehaviour
         //move using character controller
         charCon.Move(movement * Time.deltaTime); 
 
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else if (Cursor.lockState == CursorLockMode.None)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+        }
+
     }
 
     private void LateUpdate()
