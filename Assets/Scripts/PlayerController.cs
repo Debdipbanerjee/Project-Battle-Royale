@@ -72,8 +72,18 @@ public class PlayerController : MonoBehaviour
             activeMoveSpeed = moveSpeed;
         }
 
-        // moveing directions wrt to player
-        movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized * activeMoveSpeed;
+        //Jump
+        float yVel = movement.y;
+        movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized * activeMoveSpeed; // moveing directions wrt to player
+        movement.y = yVel; //player Y position
+
+        //gravity 0 when grounded
+        if(charCon.isGrounded)
+        {
+            movement.y = 0f;
+        }
+
+        movement.y += Physics.gravity.y * Time.deltaTime;
 
         //move using character controller
         charCon.Move(movement * Time.deltaTime); 
