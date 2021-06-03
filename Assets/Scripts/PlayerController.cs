@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     //Accessing main camera
     private Camera cam;
 
+    public float jumpForce = 12f, gravityMod = 2.5f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,7 +74,7 @@ public class PlayerController : MonoBehaviour
             activeMoveSpeed = moveSpeed;
         }
 
-        //Jump
+        //Gravity
         float yVel = movement.y;
         movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized * activeMoveSpeed; // moveing directions wrt to player
         movement.y = yVel; //player Y position
@@ -83,7 +85,13 @@ public class PlayerController : MonoBehaviour
             movement.y = 0f;
         }
 
-        movement.y += Physics.gravity.y * Time.deltaTime;
+        //Jump
+        if(Input.GetButtonDown("Jump"))
+        {
+            movement.y = jumpForce;
+        }
+
+        movement.y += Physics.gravity.y * Time.deltaTime * gravityMod;
 
         //move using character controller
         charCon.Move(movement * Time.deltaTime); 
