@@ -100,6 +100,12 @@ public class PlayerController : MonoBehaviour
 
         movement.y += Physics.gravity.y * Time.deltaTime * gravityMod;
 
+        //Shooting
+        if(Input.GetMouseButtonDown(0))
+        {
+            Shoot();
+        }
+
         //move using character controller
         charCon.Move(movement * Time.deltaTime); 
 
@@ -113,6 +119,18 @@ public class PlayerController : MonoBehaviour
             {
                 Cursor.lockState = CursorLockMode.Locked;
             }
+        }
+
+    }
+
+    private void Shoot()
+    {
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        ray.origin = cam.transform.position;
+
+        if(Physics.Raycast(ray,out RaycastHit hit))
+        {
+            Debug.Log("You hit " + hit.collider.gameObject.name);
         }
 
     }
