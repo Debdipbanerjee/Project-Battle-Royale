@@ -27,6 +27,8 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayers;
 
     public GameObject bulletImpact;
+    public float timeBetweenShots = 0.1f;
+    private float shotCounter;
 
     // Start is called before the first frame update
     void Start()
@@ -82,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
         //Gravity
         float yVel = movement.y;
-        movement = ((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized * activeMoveSpeed; // moveing directions wrt to player
+        movement = (((transform.forward * moveDir.z) + (transform.right * moveDir.x)).normalized) * activeMoveSpeed; // moveing directions wrt to player
         movement.y = yVel; //player Y position
 
         //gravity 0 when grounded
@@ -107,6 +109,18 @@ public class PlayerController : MonoBehaviour
         {
             Shoot();
         }
+
+        //Autofiring
+        if(Input.GetMouseButton(0))
+        {
+            shotCounter -= Time.deltaTime;
+
+            if(shotCounter <= 0)
+            {
+                Shoot();
+            }
+        }
+
 
         //move using character controller
         charCon.Move(movement * Time.deltaTime); 
@@ -139,6 +153,7 @@ public class PlayerController : MonoBehaviour
             Destroy(bulletImpactObject, 10f);
         }
 
+        shotCounter = timeBetweenShots;
     }
 
     private void LateUpdate()
