@@ -30,6 +30,12 @@ public class PlayerController : MonoBehaviour
     public float timeBetweenShots = 0.1f;
     private float shotCounter;
 
+    public float maxHeat = 10f, heatPerShot = 1f, coolRate = 4f, overheatCoolRate = 5f;
+    private float heatCounter;
+    private bool overHeated;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -104,27 +110,52 @@ public class PlayerController : MonoBehaviour
 
         movement.y += Physics.gravity.y * Time.deltaTime * gravityMod;
 
-        //Shooting
-        if(Input.GetMouseButtonDown(0))
-        {
-            Shoot();
-        }
 
-        //Autofiring
-        if(Input.GetMouseButton(0))
+        if(!overHeated)
         {
-            shotCounter -= Time.deltaTime;
-
-            if(shotCounter <= 0)
+            //Shooting
+            if (Input.GetMouseButtonDown(0))
             {
                 Shoot();
             }
+
+            //Autofiring
+            if (Input.GetMouseButton(0))
+            {
+                shotCounter -= Time.deltaTime;
+
+                if (shotCounter <= 0)
+                {
+                    Shoot();
+                }
+            }
+
+            //Cooling down when NOT overheated
+            heatCounter -= coolRate * Time.deltaTime;
+        }
+        else
+        {
+            //Cooling down when overheated
+            heatCounter -= overheatCoolRate * Time.deltaTime;
+
+            if (heatCounter <= 0)
+            {
+                overHeated = false;
+            }
+        }
+
+        //Resetting the heat counter
+        if(heatCounter < 0)
+        {
+            heatCounter = 0;
+
         }
 
 
         //move using character controller
         charCon.Move(movement * Time.deltaTime); 
 
+        //Locking of cursor while Game
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             Cursor.lockState = CursorLockMode.None;
@@ -154,6 +185,16 @@ public class PlayerController : MonoBehaviour
         }
 
         shotCounter = timeBetweenShots;
+
+        //heat ill increase per shot
+        heatCounter += heatPerShot;
+
+        if(heatCounter >= maxHeat)
+        {
+            heatCounter = maxHeat;
+
+            overHeated = true;
+        }
     }
 
     private void LateUpdate()
