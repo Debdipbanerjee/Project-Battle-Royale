@@ -141,6 +141,9 @@ public class PlayerController : MonoBehaviour
             if (heatCounter <= 0)
             {
                 overHeated = false;
+
+                //Disable overheated message when it's cools down
+                UIController.instance.overheatedMessage.gameObject.SetActive(false);
             }
         }
 
@@ -148,7 +151,6 @@ public class PlayerController : MonoBehaviour
         if(heatCounter < 0)
         {
             heatCounter = 0;
-
         }
 
 
@@ -194,6 +196,9 @@ public class PlayerController : MonoBehaviour
             heatCounter = maxHeat;
 
             overHeated = true;
+            
+            //show overheated message 
+            UIController.instance.overheatedMessage.gameObject.SetActive(true);
         }
     }
 
