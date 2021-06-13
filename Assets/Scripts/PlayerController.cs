@@ -44,6 +44,9 @@ public class PlayerController : MonoBehaviour
 
         //Assigning main camera
         cam = Camera.main;
+
+        //Weapon temparature
+        UIController.instance.weaponTempSlider.maxValue = maxHeat;
     }
 
     // Update is called once per frame
@@ -150,8 +153,11 @@ public class PlayerController : MonoBehaviour
         //Resetting the heat counter
         if(heatCounter < 0)
         {
-            heatCounter = 0;
+            heatCounter = 0f;
         }
+
+        //Weapon temparature value per frame
+        UIController.instance.weaponTempSlider.value = heatCounter;
 
 
         //move using character controller
@@ -179,10 +185,10 @@ public class PlayerController : MonoBehaviour
 
         if(Physics.Raycast(ray,out RaycastHit hit))
         {
-            Debug.Log("You hit " + hit.collider.gameObject.name);
-
+            //Instantiate bullet impact
             GameObject bulletImpactObject = Instantiate(bulletImpact, hit.point + (hit.normal * 0.002f), Quaternion.LookRotation(hit.normal, Vector3.up));
 
+            //Destroy bullet impact
             Destroy(bulletImpactObject, 10f);
         }
 
