@@ -296,7 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAutomatic: 1
   timeBetweenShots: 0.1
-  heatPerShot: 2
+  heatPerShot: 3
 --- !u!1 &243199818
 GameObject:
   m_ObjectHideFlags: 0
@@ -2609,7 +2609,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAutomatic: 1
   timeBetweenShots: 0.35
-  heatPerShot: 1
+  heatPerShot: 2
 --- !u!1 &1650075356
 GameObject:
   m_ObjectHideFlags: 0
@@ -2739,9 +2739,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   bulletImpact: {fileID: 3119356783305613913, guid: afaa193c96c64b742ad6ac32093e3bb3, type: 3}
-  timeBetweenShots: 0.1
   maxHeat: 10
-  heatPerShot: 1
   coolRate: 4
   overheatCoolRate: 5
   allGuns:

@@ -27,10 +27,10 @@ public class PlayerController : MonoBehaviour
     public LayerMask groundLayers;
 
     public GameObject bulletImpact;
-    public float timeBetweenShots = 0.1f;
+    //public float timeBetweenShots = 0.1f;
     private float shotCounter;
 
-    public float maxHeat = 10f, heatPerShot = 1f, coolRate = 4f, overheatCoolRate = 5f;
+    public float maxHeat = 10f, /*heatPerShot = 1f,*/ coolRate = 4f, overheatCoolRate = 5f;
     private float heatCounter;
     private bool overHeated;
 
@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
         movement.y += Physics.gravity.y * Time.deltaTime * gravityMod;
 
 
-        if(!overHeated)
+        if (!overHeated)
         {
             //Shooting
             if (Input.GetMouseButtonDown(0))
@@ -127,7 +127,7 @@ public class PlayerController : MonoBehaviour
             }
 
             //Autofiring
-            if (Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0) && allGuns[selectedGun].isAutomatic)
             {
                 shotCounter -= Time.deltaTime;
 
@@ -226,10 +226,10 @@ public class PlayerController : MonoBehaviour
             Destroy(bulletImpactObject, 10f);
         }
 
-        shotCounter = timeBetweenShots;
+        shotCounter = allGuns[selectedGun].timeBetweenShots;
 
         //heat ill increase per shot
-        heatCounter += heatPerShot;
+        heatCounter += allGuns[selectedGun].heatPerShot;
 
         if(heatCounter >= maxHeat)
         {
